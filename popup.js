@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const gatherButton = document.getElementById('gatherButton');
+  const closeLeftButton = document.getElementById('closeLeftButton');
   const statusDiv = document.getElementById('status');
 
   function showStatus(message, isError = false) {
@@ -53,6 +54,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     setButtonState(false, 'Gather All Tabs');
+  });
+
+  closeLeftButton.addEventListener('click', async function() {
+    try {
+      const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (!activeTab) {
+        showStatus('No active tab found', true);
+        return;
+      }
+
+      const tabs = await chrome.tabs.query({ currentWindow: true });
+      const activeTabIndex = tabs.findIndex(tab => tab.id === activeTab.id);
+      
+      if (activeTabIndex <= 0) {
+        showStatus('No tabs to close to the left', true);
+        return;
+      }
+
+      const tabsToClose = tabs.slice(0, activeTabIndex);
+      const tabIdsToClose = tabsToClose.map(tab => tab.id);
+      
+      if (tabIdsToClose.length > 0) {
+        await chrome.tabs.remove(tabIdsToClose);
+        showStatus(`Closed ${tabIdsToClose.length} tabs to the left`);
+        setTimeout(() => {
+          window.close();
+        }, 1500);
+      }
+    } catch (error) {
+      console.error('Error closing tabs to the left:', error);
+      showStatus('Error closing tabs to the left', true);
+    }
   });
 
   chrome.windows.getAll({ populate: true }).then(windows => {

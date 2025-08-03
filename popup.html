@@ -25,7 +25,7 @@
       font-size: 14px;
     }
     
-    #gatherButton {
+    .button {
       background-color: #4285f4;
       color: white;
       border: none;
@@ -37,13 +37,21 @@
       margin-bottom: 10px;
     }
     
-    #gatherButton:hover {
+    .button:hover {
       background-color: #3367d6;
     }
     
-    #gatherButton:disabled {
+    .button:disabled {
       background-color: #ccc;
       cursor: not-allowed;
+    }
+    
+    #closeLeftButton {
+      background-color: #db4437;
+    }
+    
+    #closeLeftButton:hover {
+      background-color: #c23321;
     }
     
     .status {
@@ -67,7 +75,8 @@
     <div class="description">
       Consolidate all open tabs from all windows into a single window.
     </div>
-    <button id="gatherButton">Gather All Tabs</button>
+    <button id="gatherButton" class="button">Gather All Tabs</button>
+    <button id="closeLeftButton" class="button">Close Tabs to the Left</button>
     <div id="status" class="status"></div>
   </div>
   <script src="popup.js"></script>

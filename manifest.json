@@ -5,7 +5,8 @@
   "description": "Consolidate all open tabs into a single window",
   "permissions": [
     "tabs",
-    "windows"
+    "windows",
+    "contextMenus"
   ],
   "background": {
     "service_worker": "background.js"
