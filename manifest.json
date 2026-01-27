@@ -5,6 +5,7 @@
   "description": "Orchestrate your tabs - consolidate windows and tidy up",
   "permissions": [
     "tabs",
+    "tabGroups",
     "windows",
     "contextMenus"
   ],

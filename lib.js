@@ -1,3 +1,5 @@
+const GROUP_COLORS = ['blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'];
+
 export async function consolidateTabs() {
   const windows = await chrome.windows.getAll({ populate: true });
 
@@ -5,28 +7,60 @@ export async function consolidateTabs() {
     return { success: false, reason: 'already_single_window' };
   }
 
-  const allTabs = windows.flatMap(w => w.tabs.map(tab => ({
-    url: tab.url,
-    pinned: tab.pinned
-  })));
   const windowIds = windows.map(w => w.id);
 
-  const newWindow = await chrome.windows.create({
-    url: allTabs[0].url,
-    focused: true
+  // Build per-window tab info with group name from active tab
+  const windowGroups = windows.map(w => {
+    const activeTab = w.tabs.find(t => t.active);
+    const title = activeTab?.title || 'Window';
+    return {
+      groupName: title.length > 30 ? title.slice(0, 30) : title,
+      tabs: w.tabs.map(tab => ({ url: tab.url, pinned: tab.pinned })),
+    };
   });
 
-  for (let i = 1; i < allTabs.length; i++) {
-    chrome.tabs.create({
-      windowId: newWindow.id,
-      url: allTabs[i].url,
-      pinned: allTabs[i].pinned,
-      active: false
+  // Create the destination window with the first tab from the first group
+  const firstTab = windowGroups[0].tabs[0];
+  const newWindow = await chrome.windows.create({
+    url: firstTab.url,
+    focused: true
+  });
+  const firstTabId = newWindow.tabs[0].id;
+
+  let colorIndex = 0;
+
+  for (let g = 0; g < windowGroups.length; g++) {
+    const group = windowGroups[g];
+    const createdTabIds = [];
+
+    // First group's first tab was already created with the window
+    const startIndex = g === 0 ? 1 : 0;
+    if (g === 0) createdTabIds.push(firstTabId);
+
+    for (let i = startIndex; i < group.tabs.length; i++) {
+      const tab = await chrome.tabs.create({
+        windowId: newWindow.id,
+        url: group.tabs[i].url,
+        pinned: group.tabs[i].pinned,
+        active: false
+      });
+      createdTabIds.push(tab.id);
+    }
+
+    // Group the tabs and label them
+    const groupId = await chrome.tabs.group({
+      tabIds: createdTabIds,
+      createProperties: { windowId: newWindow.id }
     });
+    await chrome.tabGroups.update(groupId, {
+      title: group.groupName,
+      color: GROUP_COLORS[colorIndex % GROUP_COLORS.length]
+    });
+    colorIndex++;
   }
 
   for (const windowId of windowIds) {
-    chrome.windows.remove(windowId);
+    await chrome.windows.remove(windowId);
   }
 
   return { success: true };
