@@ -50,3 +50,21 @@ export async function closeTabsToLeft() {
 
   return { success: true, count: tabIdsToClose.length };
 }
+
+export async function closeOldTabs(maxAgeMs = 60 * 60 * 1000) {
+  const tabs = await chrome.tabs.query({});
+  const now = Date.now();
+
+  const oldTabs = tabs.filter(tab => {
+    if (tab.active) return false;
+    if (!tab.lastAccessed) return false;
+    return (now - tab.lastAccessed) > maxAgeMs;
+  });
+
+  if (oldTabs.length === 0) {
+    return { success: false, reason: 'no_old_tabs' };
+  }
+
+  await chrome.tabs.remove(oldTabs.map(tab => tab.id));
+  return { success: true, count: oldTabs.length };
+}

@@ -7,12 +7,14 @@
       width: 300px;
       padding: 20px;
       font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f6f3e8;
     }
-    
+
     .container {
       text-align: center;
     }
-    
+
     .header {
       display: flex;
       align-items: center;
@@ -27,20 +29,20 @@
     }
 
     h1 {
-      color: #333;
+      color: #f6f3e8;
       margin: 0;
       font-size: 18px;
     }
-    
+
     .description {
-      color: #666;
+      color: #7C7C7C;
       margin-bottom: 20px;
       font-size: 14px;
     }
-    
+
     .button {
-      background-color: #4285f4;
-      color: white;
+      background-color: #96CBFE;
+      color: #121212;
       border: none;
       padding: 12px 24px;
       border-radius: 4px;
@@ -49,62 +51,67 @@
       width: 100%;
       margin-bottom: 10px;
     }
-    
+
     .button:hover {
-      background-color: #3367d6;
+      background-color: #B5DCFE;
     }
-    
+
     .button:disabled {
-      background-color: #ccc;
+      background-color: #3D3D3D;
+      color: #7C7C7C;
       cursor: not-allowed;
     }
-    
+
     #closeLeftButton {
-      background-color: #db4437;
+      background-color: #FF6C60;
     }
-    
+
     #closeLeftButton:hover {
-      background-color: #c23321;
+      background-color: #FFB6B0;
     }
-    
+
+    #closeOldButton {
+      background-color: #E18964;
+    }
+
+    #closeOldButton:hover {
+      background-color: #FFD2A7;
+    }
+
     .status {
       font-size: 14px;
       margin-top: 10px;
       min-height: 20px;
     }
-    
+
     .success {
-      color: #0d7377;
-    }
-    
-    .error {
-      color: #d32f2f;
+      color: #A8FF60;
     }
 
-    @media (prefers-color-scheme: dark) {
+    .error {
+      color: #FF6C60;
+    }
+
+    @media (prefers-color-scheme: light) {
       body {
-        background-color: #1e1e1e;
-        color: #e0e0e0;
+        background-color: #f6f3e8;
+        color: #121212;
       }
 
       h1 {
-        color: #e0e0e0;
+        color: #121212;
       }
 
       .description {
-        color: #a0a0a0;
-      }
-
-      .button:disabled {
-        background-color: #555;
+        color: #666;
       }
 
       .success {
-        color: #4db6ac;
+        color: #2a7a2a;
       }
 
       .error {
-        color: #ef5350;
+        color: #c23321;
       }
     }
   </style>
@@ -120,6 +127,7 @@
     </div>
     <button id="gatherButton" class="button">Gather All Tabs</button>
     <button id="closeLeftButton" class="button">Close Tabs to the Left</button>
+    <button id="closeOldButton" class="button">Close Old Tabs (1hr+)</button>
     <div id="status" class="status"></div>
   </div>
   <script src="popup.js" type="module"></script>

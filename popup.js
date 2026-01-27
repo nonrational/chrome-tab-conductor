@@ -1,8 +1,9 @@
-import { consolidateTabs, closeTabsToLeft } from './lib.js';
+import { consolidateTabs, closeTabsToLeft, closeOldTabs } from './lib.js';
 
 document.addEventListener('DOMContentLoaded', function() {
   const gatherButton = document.getElementById('gatherButton');
   const closeLeftButton = document.getElementById('closeLeftButton');
+  const closeOldButton = document.getElementById('closeOldButton');
   const statusDiv = document.getElementById('status');
 
   function showStatus(message, isError = false) {
@@ -35,6 +36,15 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     window.close();
+  });
+
+  closeOldButton.addEventListener('click', async function() {
+    const result = await closeOldTabs();
+    if (!result.success) {
+      showStatus('No old tabs to close', true);
+      return;
+    }
+    showStatus(`Closed ${result.count} old tab${result.count === 1 ? '' : 's'}`);
   });
 
   chrome.windows.getAll({ populate: true }).then(windows => {
