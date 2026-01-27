@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Chrome-inspired tri-color background -->
+  <!-- Red section (top-right, 120 degrees) -->
+  <path d="M64 64 L64 4 A60 60 0 0 1 116 94 Z" fill="#EA4335" />
+  <!-- Green section (bottom, 120 degrees) -->
+  <path d="M64 64 L116 94 A60 60 0 0 1 12 94 Z" fill="#34A853" />
+  <!-- Yellow section (top-left, 120 degrees) -->
+  <path d="M64 64 L12 94 A60 60 0 0 1 64 4 Z" fill="#FBBC04" />
+
+  <!-- Conductor silhouette -->
+  <!-- Head -->
+  <circle cx="64" cy="36" r="12" fill="#fff" />
+
+  <!-- Body (torso) -->
+  <path d="M52 48 Q64 52 76 48 L72 80 Q64 84 56 80 Z" fill="#fff" />
+
+  <!-- Left arm (raised, holding baton) -->
+  <path d="M52 52 Q40 48 32 36" stroke="#fff" stroke-width="8" stroke-linecap="round" fill="none" />
+
+  <!-- Right arm (extended outward) -->
+  <path d="M76 52 Q88 58 100 52" stroke="#fff" stroke-width="8" stroke-linecap="round" fill="none" />
+
+  <!-- Baton -->
+  <line x1="30" y1="34" x2="12" y2="16" stroke="#fff" stroke-width="4" stroke-linecap="round" />
+
+  <!-- Podiums (tab-like) -->
+  <rect x="30" y="82" width="20" height="10" rx="2" fill="#fff" opacity="0.9" />
+  <rect x="54" y="82" width="20" height="10" rx="2" fill="#fff" opacity="0.8" />
+  <rect x="78" y="82" width="20" height="10" rx="2" fill="#fff" opacity="0.7" />
+</svg>

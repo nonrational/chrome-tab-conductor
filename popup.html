@@ -13,9 +13,22 @@
       text-align: center;
     }
     
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+    }
+
     h1 {
       color: #333;
-      margin-bottom: 20px;
+      margin: 0;
       font-size: 18px;
     }
     
@@ -67,11 +80,41 @@
     .error {
       color: #d32f2f;
     }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+      }
+
+      h1 {
+        color: #e0e0e0;
+      }
+
+      .description {
+        color: #a0a0a0;
+      }
+
+      .button:disabled {
+        background-color: #555;
+      }
+
+      .success {
+        color: #4db6ac;
+      }
+
+      .error {
+        color: #ef5350;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Tab Conductor</h1>
+    <div class="header">
+      <img src="assets/icon48.png" alt="Tab Conductor" class="logo">
+      <h1>Tab Conductor</h1>
+    </div>
     <div class="description">
       Consolidate all open tabs from all windows into a single window.
     </div>
