@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Tab Gatherer",
+  "name": "Tab Conductor",
   "version": "1.0",
-  "description": "Consolidate all open tabs into a single window",
+  "description": "Orchestrate your tabs - consolidate windows and tidy up",
   "permissions": [
     "tabs",
     "windows",

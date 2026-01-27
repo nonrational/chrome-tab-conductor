@@ -1,6 +1,6 @@
-# Tab Gatherer Chrome Extension
+# Tab Conductor Chrome Extension
 
-A Chrome extension that consolidates all open tabs from multiple windows into a single window.
+A Chrome extension that orchestrates your tabs - consolidate windows and tidy up.
 
 ## Installation
 
@@ -11,18 +11,20 @@ A Chrome extension that consolidates all open tabs from multiple windows into a 
 
 ## Usage
 
-1. Click the Tab Gatherer icon in your toolbar
+1. Click the Tab Conductor icon in your toolbar
 2. Click "Gather All Tabs" to consolidate all tabs into one window
-3. The extension will create a new window with all your tabs and close the others
+3. Click "Close Tabs to the Left" to close all tabs before the current one
 
 ## Features
 
 - Consolidates tabs from all windows into a single window
+- Close tabs to the left of current tab
 - Preserves pinned tabs
 - Shows current tab count in the popup
-- Simple, clean interface
+- Context menu support (right-click to close tabs to the left)
 
 ## Permissions
 
 - `tabs`: Required to access and manipulate browser tabs
 - `windows`: Required to create new windows and close existing ones
+- `contextMenus`: Required for right-click menu integration

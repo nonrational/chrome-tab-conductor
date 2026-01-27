@@ -1,4 +1,4 @@
-export async function gatherAllTabs() {
+export async function consolidateTabs() {
   const windows = await chrome.windows.getAll({ populate: true });
 
   if (windows.length <= 1) {

@@ -1,4 +1,4 @@
-import { gatherAllTabs, closeTabsToLeft } from './lib.js';
+import { consolidateTabs, closeTabsToLeft } from './lib.js';
 
 document.addEventListener('DOMContentLoaded', function() {
   const gatherButton = document.getElementById('gatherButton');
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   gatherButton.addEventListener('click', async function() {
-    const result = await gatherAllTabs();
+    const result = await consolidateTabs();
     if (!result.success) {
       showStatus('All tabs already in one window');
       return;
