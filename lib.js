@@ -102,3 +102,48 @@ export async function closeOldTabs(maxAgeMs = 60 * 60 * 1000) {
   await chrome.tabs.remove(oldTabs.map(tab => tab.id));
   return { success: true, count: oldTabs.length };
 }
+
+export async function copyUrlsToClipboard() {
+  const tabs = await chrome.tabs.query({ currentWindow: true });
+
+  const urls = tabs
+    .map(tab => tab.url)
+    .filter(url => url && !url.startsWith('chrome://') && !url.startsWith('edge://') && !url.startsWith('about:'));
+
+  if (urls.length === 0) {
+    return { success: false, reason: 'no_urls' };
+  }
+
+  const text = urls.join('\n');
+  await navigator.clipboard.writeText(text);
+
+  return { success: true, count: urls.length };
+}
+
+export async function openTabsFromClipboard() {
+  let text;
+  try {
+    text = await navigator.clipboard.readText();
+  } catch {
+    return { success: false, reason: 'clipboard_error' };
+  }
+
+  if (!text || !text.trim()) {
+    return { success: false, reason: 'empty_clipboard' };
+  }
+
+  const urls = text
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.startsWith('http://') || line.startsWith('https://'));
+
+  if (urls.length === 0) {
+    return { success: false, reason: 'no_valid_urls' };
+  }
+
+  for (const url of urls) {
+    await chrome.tabs.create({ url, active: false });
+  }
+
+  return { success: true, count: urls.length };
+}

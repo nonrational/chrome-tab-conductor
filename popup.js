@@ -1,9 +1,11 @@
-import { consolidateTabs, closeTabsToLeft, closeOldTabs } from './lib.js';
+import { consolidateTabs, closeTabsToLeft, closeOldTabs, copyUrlsToClipboard, openTabsFromClipboard } from './lib.js';
 
 document.addEventListener('DOMContentLoaded', function() {
   const gatherButton = document.getElementById('gatherButton');
   const closeLeftButton = document.getElementById('closeLeftButton');
   const closeOldButton = document.getElementById('closeOldButton');
+  const copyUrlsButton = document.getElementById('copyUrlsButton');
+  const openFromClipboardButton = document.getElementById('openFromClipboardButton');
   const statusDiv = document.getElementById('status');
 
   function showStatus(message, isError = false) {
@@ -45,6 +47,29 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     showStatus(`Closed ${result.count} old tab${result.count === 1 ? '' : 's'}`);
+  });
+
+  copyUrlsButton.addEventListener('click', async function() {
+    const result = await copyUrlsToClipboard();
+    if (!result.success) {
+      showStatus('No URLs to copy', true);
+      return;
+    }
+    showStatus(`Copied ${result.count} URL${result.count === 1 ? '' : 's'} to clipboard`);
+  });
+
+  openFromClipboardButton.addEventListener('click', async function() {
+    const result = await openTabsFromClipboard();
+    if (!result.success) {
+      const messages = {
+        clipboard_error: 'Could not read clipboard',
+        empty_clipboard: 'Clipboard is empty',
+        no_valid_urls: 'No valid URLs in clipboard'
+      };
+      showStatus(messages[result.reason], true);
+      return;
+    }
+    showStatus(`Opened ${result.count} tab${result.count === 1 ? '' : 's'}`);
   });
 
   chrome.windows.getAll({ populate: true }).then(windows => {
